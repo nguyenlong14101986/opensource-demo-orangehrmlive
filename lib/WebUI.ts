@@ -7,7 +7,7 @@ export class WebUI {
         this.page = page;
     }
  
-    async selectDropdown(dropdown: Locator, option: string): Promise<void> {
+    async selectDropdown(dropdown: Locator, option: string) {
         await dropdown.click();
         await this.page.locator(`.oxd-select-dropdown >> text=${option}`).click();
     }

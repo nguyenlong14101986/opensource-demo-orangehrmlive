@@ -7,5 +7,5 @@ export abstract class BasePage {
     this.page = page;
   }
  
-  abstract verifyPageDisplay(): Promise<void>;
+  abstract verifyPageDisplay(): any;
 }
