@@ -11,12 +11,12 @@ export class DashboardPage extends BasePage {
         this.adminLink = page.getByRole('link', { name: 'Admin' });
     }
  
-    async verifyPageDisplay(): Promise<void> {
+    async verifyPageDisplay() {
         await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index');
         await expect(this.dashboardHeader).toBeVisible();
     }
  
-    async navigateToAdminPage(): Promise<void> {
+    async navigateToAdminPage() {
         await this.adminLink.click();
     }
 }

@@ -6,6 +6,8 @@ export class LoginPage extends BasePage {
     readonly passwordTextbox: Locator;
     readonly loginButton: Locator;
     readonly alertMessage: Locator;
+    readonly errorLoginField: Locator;
+    readonly errorPasswordField: Locator;
  
     constructor(page: any) {
         super(page);
@@ -13,25 +15,34 @@ export class LoginPage extends BasePage {
         this.passwordTextbox = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
         this.alertMessage = page.getByText('Invalid credentials');
+        this.errorLoginField = page.locator('.oxd-input-group__message').first();
+        this.errorPasswordField = page.locator('.oxd-input-group__message').last();
     }
  
-    async verifyPageDisplay(): Promise<void> {
+    async verifyPageDisplay() {
         await expect(this.loginButton).toBeVisible();
     }
  
-    async navigateToLoginPage(): Promise<void> {
+    async navigateToLoginPage() {
         await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
     }
  
-    async login(username: string, password: string): Promise<void> {
+    async login(username: string, password: string) {
         await this.usernameTextbox.fill(username);
         await this.passwordTextbox.fill(password);
         await this.loginButton.click();
         // await this.page.waitForLoadState('networkidle');
     }
  
-    async verifyInvalidLogin(): Promise<void> {
+    async verifyInvalidLogin() {
         await expect(this.alertMessage).toBeVisible();
         await expect(this.alertMessage).toHaveText('Invalid credentials');
+    }
+
+    async verifyRequiredFieldErrorShown() {
+        await expect(this.errorLoginField).toBeVisible();
+        await expect(this.errorLoginField).toHaveText('Required');
+        await expect(this.errorPasswordField).toBeVisible();
+        await expect(this.errorPasswordField).toHaveText('Required');
     }
 }

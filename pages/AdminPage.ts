@@ -36,57 +36,56 @@ export class AdminPage extends BasePage {
         this.errorMessage = page.locator('.oxd-input-group__message');
     }
  
-    async verifyPageDisplay(): Promise<void> {
+    async verifyPageDisplay() {
         await expect(this.adminHeader).toBeVisible();
     }
  
-    async inputUsername(username: string): Promise<void> {
+    async inputUsername(username: string) {
         await this.usernameTextbox.fill(username);
     }
  
-    async inputEmployeeName(employeeName: string): Promise<void> {
+    async inputEmployeeName(employeeName: string) {
         await this.employeeNameTextbox.fill(employeeName);
     }
  
-    async selectUserRoleOption(userRole: string): Promise<void> {
+    async selectUserRoleOption(userRole: string) {
         await this.webUI.selectDropdown(this.userRoleDropdown, userRole)
     }
  
-    async selectStatusOption(status: string): Promise<void> {
+    async selectStatusOption(status: string) {
         await this.webUI.selectDropdown(this.statusDropdown, status)
     }
  
-    async clickSearchButton(): Promise<void> {
+    async clickSearchButton() {
         await this.searchButton.click();
+        await this.page.waitForLoadState();
     }
  
-    // async verifyRecordMessageDisplay(): Promise<void> {
+    // async verifyRecordMessageDisplay() {
     //     await expect(this.recordMessage).toBeVisible();
     //     await expect(this.recordMessage).toContainText('Record Found');
     // }
  
-    async verifyUsernameCellDisplay(username: string): Promise<void> {
+    async verifyUsernameCellDisplay(username: string) {
         await expect(this.usernameCell).toBeVisible();
         await expect(this.usernameCell).toContainText(username);
     }
  
-    async verifyUserRoleCellDisplay(userRole: string): Promise<void> {
+    async verifyUserRoleCellDisplay(userRole: string) {
         const rowCount: number = await this.userRoleCell.count();
         console.log("count: " + rowCount)
         for (let i = 0; i < rowCount; i++) {
-            await this.page.waitForTimeout(3000)
             await expect(this.userRoleCell.nth(i)).toBeVisible();
-            await this.page.waitForTimeout(3000)
             await expect(this.userRoleCell.nth(i)).toContainText(userRole);
         }
     }
  
-    async verifyEmployeeCellDisplay(employeeName: string): Promise<void> {
+    async verifyEmployeeCellDisplay(employeeName: string) {
         await expect(this.employeeNameCell).toBeVisible();
         await expect(this.employeeNameCell).toContainText(employeeName);
     }
  
-    async verifyStatusCellDisplay(status: string): Promise<void> {
+    async verifyStatusCellDisplay(status: string) {
         const rowCount: number = await this.statusCell.count();
         for (let i = 0; i < rowCount; i++) {
             await expect(this.statusCell.nth(i)).toBeVisible();
@@ -94,12 +93,12 @@ export class AdminPage extends BasePage {
         }
     }
  
-    async verifyAlert(message: string): Promise<void> {
+    async verifyAlert(message: string) {
         await expect(this.alertPopup).toBeVisible();
         await expect(this.alertMessage).toContainText(message);
     }
  
-    async verifyErrorMessage(message: string): Promise<void> {
+    async verifyErrorMessage(message: string) {
         await expect(this.errorMessage).toBeVisible();
         await expect(this.errorMessage).toContainText(message);
     }

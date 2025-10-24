@@ -20,6 +20,7 @@
     "@types/node": "^24.9.0"
   },
   "dependencies": {
+    "allure-playwright": "^3.4.1",
     "tsconfig-paths": "^2.1.0"
   }
 }
