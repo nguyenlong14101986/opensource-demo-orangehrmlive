@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Automation with playwright and type script for opensource-demo-orangehrmlive.com",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nguyenlong14101986/opensource-demo-orangehrmlive.git"

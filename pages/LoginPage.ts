@@ -27,11 +27,10 @@ export class LoginPage extends BasePage {
         await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
     }
  
-    async login(username: string, password: string) {
-        await this.usernameTextbox.fill(username);
-        await this.passwordTextbox.fill(password);
+    async login(testData: any) {
+        await this.usernameTextbox.fill(testData.username);
+        await this.passwordTextbox.fill(testData.password);
         await this.loginButton.click();
-        // await this.page.waitForLoadState('networkidle');
     }
  
     async verifyInvalidLogin() {

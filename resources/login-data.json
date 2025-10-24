@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC_LOGIN_01",
+    "description": "Login with valid admin credentials",
+    "username": "Admin",
+    "password": "admin123",
+    "expectedAlert": "success"
+  },
+  {
+    "id": "TC_LOGIN_02",
+    "description": "Login with mixed-case username",
+    "username": "aDmIn",
+    "password": "admin123",
+    "expectedAlert": "Invalid credentials"
+  },
+  {
+    "id": "TC_LOGIN_03",
+    "description": "Login with incorrect password",
+    "username": "aDmIn",
+    "password": "wrongpass",
+    "expectedAlert": "Invalid credentials"
+  },
+  {
+    "id": "TC_LOGIN_04",
+    "description": "Login with empty fields",
+    "username": "",
+    "password": "",
+    "expectedAlert": "Required"
+  },
+  {
+    "id": "TC_LOGIN_05",
+    "description": "LoginLogin with max length credentials",
+    "username": null,
+    "password": "admin123",
+    "expectedAlert": "Invalid credentials"
+  }
+]

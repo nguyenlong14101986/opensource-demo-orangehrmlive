@@ -1,0 +1,66 @@
+[
+  {
+    "id": "TC_SEARCH_01",
+    "description": "Search valid username only",
+    "username": "Admin",
+    "expectedUsername": "Admin"
+  },
+  {
+    "id": "TC_SEARCH_02",
+    "description": "Case-insensitive search",
+    "username": "aDmIn",
+    "expectedUsername": "Admin"
+  },
+  {
+    "id": "TC_SEARCH_03",
+    "description": "Search valid user role only",
+    "userRole": "Admin",
+    "expectedRole": "Admin"
+  },
+  {
+    "id": "TC_SEARCH_04",
+    "description": "Search valid user status only",
+    "status": "Enabled",
+    "expectedStatus": "Enabled"
+  },
+  {
+    "id": "TC_SEARCH_05",
+    "description": "Search with multiple filters",
+    "username": "Admin",
+    "userRole": "Admin",
+    "status": "Enabled",
+    "expectedUsername": "Admin",
+    "expectedRole": "Admin",
+    "expectedStatus": "Enabled"
+  },
+  {
+    "id": "TC_SEARCH_06",
+    "description": "Search returns no match",
+    "username": "NonExistingUser",
+    "expectedAlert": "No Records Found"
+  },
+  {
+    "id": "TC_SEARCH_07",
+    "description": "Username with leading/trailing spaces",
+    "username": "  Admin  ",
+    "expectedAlert": "No Records Found"
+  },
+  {
+    "id": "TC_SEARCH_08",
+    "description": "Invalid characters in Username",
+    "username": "@@@###",
+    "expectedAlert": "No Records Found"
+  },
+  {
+    "id": "TC_SEARCH_09",
+    "description": "Invalid characters in Employee Name",
+    "employeeName": "12345@@@",
+    "expectedErrorMessage": "Invalid"
+  },
+  {
+    "id": "TC_SEARCH_10",
+    "description": "Large input in Employee Name - 101 characters",
+    "employeeName": null,
+    "expectedErrorMessage": "Should not exceed 100 characters"
+  }
+]
