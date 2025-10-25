@@ -1,0 +1,37 @@
+name: "Generate and Upload Playwright + Allure Reports"
+description: "Generates Allure report and uploads both Playwright HTML and Allure reports"
+inputs:
+  html_path:
+    required: true
+    description: "Path to Playwright HTML report folder"
+  allure_results_path:
+    required: false
+    default: "allure-results"
+    description: "Path to Allure results folder (for generation)"
+  allure_output_path:
+    required: false
+    default: "allure-report"
+    description: "Output path for generated Allure report"
+  tag:
+    required: true
+    description: "Unique tag name for report naming"
+runs:
+  using: "composite"
+  steps:
+    - name: Generate Allure Report
+      run: npx allure generate ${{ inputs.allure_results_path }} --clean -o ${{ inputs.allure_output_path }}
+      shell: bash
+    - name: Upload Playwright HTML Report
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report-${{ inputs.tag }}
+        path: ${{ inputs.html_path }}
+        retention-days: 3
+    - name: Upload Allure Report
+      uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: allure-report-${{ inputs.tag }}
+        path: ${{ inputs.allure_output_path }}
+        retention-days: 3

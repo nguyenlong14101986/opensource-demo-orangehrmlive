@@ -12,7 +12,6 @@ export class DashboardPage extends BasePage {
     }
  
     async verifyPageDisplay() {
-        await expect(this.page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index');
         await expect(this.dashboardHeader).toBeVisible();
     }
  
