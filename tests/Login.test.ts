@@ -1,4 +1,5 @@
 import { test } from '@lib/BaseTest';
+import '@hook/BeforeTest';
  
 test.describe('Login Test', {
     tag: ['@login', '@smoke']
@@ -8,9 +9,9 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_01' },
         ]
-    }, async ({ loginPage, dashboardPage }) => {
+    }, async ({ loginPage, dashboardPage, testData }) => {
         await loginPage.navigateToLoginPage();
-        await loginPage.login('Admin', 'admin123');
+        await loginPage.login(testData);
         await dashboardPage.verifyPageDisplay();
     });
  
@@ -19,9 +20,9 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_02' },
         ]
-    }, async ({ loginPage, dashboardPage }) => {
+    }, async ({ loginPage, dashboardPage, testData }) => {
         await loginPage.navigateToLoginPage();
-        await loginPage.login('aDmIn', 'admin123');
+        await loginPage.login(testData);
         await dashboardPage.verifyPageDisplay();
     })
 
@@ -30,20 +31,20 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_03' },
         ]
-    }, async ({ loginPage }) => {
+    }, async ({ loginPage, testData }) => {
         await loginPage.navigateToLoginPage();
-        await loginPage.login('admin', 'wrongpass');
+        await loginPage.login(testData);
         await loginPage.verifyInvalidLogin();
     })
 
-    test.only('Login with empty fields', {
+    test('Login with empty fields', {
         tag: '@negative',
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_04' },
         ]
-    }, async ({ loginPage }) => {
+    }, async ({ loginPage, testData }) => {
         await loginPage.navigateToLoginPage();
-        await loginPage.login('', '');
+        await loginPage.login(testData);
         await loginPage.verifyRequiredFieldErrorShown();
     })
 
@@ -52,9 +53,10 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_05' },
         ]
-    }, async ({ loginPage }) => {
+    }, async ({ loginPage, testData }) => {
+        testData.username = 'a'.repeat(257)
         await loginPage.navigateToLoginPage();
-        await loginPage.login('a'.repeat(257), 'admin123');
+        await loginPage.login(testData);
         await loginPage.verifyInvalidLogin();
     })
 })

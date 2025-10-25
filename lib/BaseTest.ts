@@ -1,14 +1,16 @@
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest, TestInfo } from '@playwright/test';
 import { LoginPage } from '@pages/LoginPage'
 import { DashboardPage } from '@pages/DashboardPage';
 import { AdminPage } from '@pages/AdminPage';
 import { WebUI } from '@lib/WebUI';
- 
+import { DataLoader } from '@utils/DataLoader';
+
 export const test = baseTest.extend<{
     webUI: WebUI;
     loginPage: LoginPage;
     dashboardPage: DashboardPage;
     adminPage: AdminPage;
+    testData: any;
 }>({
     webUI: async ({ page }, use) => {
         await use(new WebUI(page));
@@ -22,16 +24,20 @@ export const test = baseTest.extend<{
     adminPage: async ({ page }, use) => {
         await use(new AdminPage(page));
     },
+    testData: async ({ }, use: (data: any) => Promise<void>, testInfo: TestInfo) => {
+        const data = await DataLoader.loadFromTestInfo(testInfo);
+        await use(data);
+    },
 })
- 
-test.beforeEach(async ({ loginPage, dashboardPage }, testInfo) => {
-    const hasLoginTag = testInfo.tags.some(tag => tag === '@login');
-    if (hasLoginTag) {
-        return;
-    } else {
-        // Perform login only if @Login tag is NOT present
-        await loginPage.navigateToLoginPage();
-        await loginPage.login('Admin', 'admin123');
-        await dashboardPage.verifyPageDisplay();
-    }
-});
+
+// test.beforeEach(async ({ loginPage, dashboardPage }, testInfo) => {
+//     const hasLoginTag = testInfo.tags.some(tag => tag === '@login');
+//     const testData = await DataLoader.loadFromTestInfo(testInfo);
+//     if (hasLoginTag) {
+//         return;
+//     } else {
+//         await loginPage.navigateToLoginPage();
+//         await loginPage.login(testData);
+//         await dashboardPage.verifyPageDisplay();
+//     }
+// });

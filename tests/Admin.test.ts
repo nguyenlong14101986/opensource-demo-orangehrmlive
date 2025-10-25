@@ -1,16 +1,17 @@
 import { test } from '@lib/BaseTest';
+import '@hook/BeforeTest';
  
 test('Search valid username only', {
     tag: ['@admin', '@smoke', '@functional'],
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_01' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('Admin');
+    await adminPage.inputUsername(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyUsernameCellDisplay('Admin');
+    await adminPage.verifyUsernameCellDisplay(testData);
 })
  
 test('Case-insensitive search', {
@@ -18,25 +19,25 @@ test('Case-insensitive search', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_02' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('admin');
+    await adminPage.inputUsername(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyUsernameCellDisplay('Admin');
+    await adminPage.verifyUsernameCellDisplay(testData);
 })
  
-test('Search valid user role only ', {
+test('Search valid user role only', {
     tag: ['@admin', '@smoke', '@functional'],
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_03' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.selectUserRoleOption('Admin');
+    await adminPage.selectUserRoleOption(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyUserRoleCellDisplay('Admin');
+    await adminPage.verifyUserRoleCellDisplay(testData);
 })
  
 test('Search valid user status only', {
@@ -44,12 +45,12 @@ test('Search valid user status only', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_04' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.selectStatusOption('Enabled');
+    await adminPage.selectStatusOption(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyStatusCellDisplay('Enabled');
+    await adminPage.verifyStatusCellDisplay(testData);
 })
  
 test('Search with multiple filters', {
@@ -57,16 +58,16 @@ test('Search with multiple filters', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_05' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('Admin');
-    await adminPage.selectUserRoleOption('Admin');
-    await adminPage.selectStatusOption('Enabled');
+    await adminPage.inputUsername(testData);
+    await adminPage.selectUserRoleOption(testData);
+    await adminPage.selectStatusOption(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyUsernameCellDisplay('Admin');
+    await adminPage.verifyUsernameCellDisplay(testData);
     // await adminPage.verifyUserRoleCellDisplay('Admin');
-    await adminPage.verifyStatusCellDisplay('Enabled');
+    await adminPage.verifyStatusCellDisplay(testData);
 })
  
 test('Search returns no match', {
@@ -74,12 +75,12 @@ test('Search returns no match', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_06' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('NonExistingUser');
+    await adminPage.inputUsername(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyAlert('No Records Found');
+    await adminPage.verifyAlert(testData);
 })
  
 test('Username with leading/trailing spaces', {
@@ -87,12 +88,12 @@ test('Username with leading/trailing spaces', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_07' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('  Admin  ');
+    await adminPage.inputUsername(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyAlert('No Records Found');
+    await adminPage.verifyAlert(testData);
 })
  
 test('Invalid characters in Username', {
@@ -100,12 +101,12 @@ test('Invalid characters in Username', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_08' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputUsername('@@@###');
+    await adminPage.inputUsername(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyAlert('No Records Found');
+    await adminPage.verifyAlert(testData);
 })
  
 test('Invalid characters in Employee Name', {
@@ -113,12 +114,12 @@ test('Invalid characters in Employee Name', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_09' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputEmployeeName('12345@@@');
+    await adminPage.inputEmployeeName(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyErrorMessage('Invalid');
+    await adminPage.verifyErrorMessage(testData);
 })
  
 test('Large input in Employee Name - 101 characters', {
@@ -126,10 +127,11 @@ test('Large input in Employee Name - 101 characters', {
     annotation: [
         { type: 'testcaseId', description: 'TC_SEARCH_10' },
     ]
-}, async ({ dashboardPage, adminPage }) => {
+}, async ({ dashboardPage, adminPage, testData }) => {
+    testData.employeeName = 'a'.repeat(101);
     await dashboardPage.navigateToAdminPage();
     await adminPage.verifyPageDisplay();
-    await adminPage.inputEmployeeName('a'.repeat(101));
+    await adminPage.inputEmployeeName(testData);
     await adminPage.clickSearchButton();
-    await adminPage.verifyErrorMessage('Should not exceed 100 characters');
+    await adminPage.verifyErrorMessage(testData);
 })
