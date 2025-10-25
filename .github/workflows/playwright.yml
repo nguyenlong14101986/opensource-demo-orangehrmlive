@@ -20,13 +20,13 @@ jobs:
   login-test:
     runs-on: ubuntu-latest
     env:
-      ENV: ${{ github.event.inputs.environment }}
-      BROWSER: ${{ github.event.inputs.browser }}
+      ENV: ${{ github.event.inputs.environment || 'qa' }}
+      BROWSER: ${{ github.event.inputs.browser || 'chromium' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-playwright
       - name: Run Playwright tests for login
-        run: ENV=$ENV npm run test --grep @login --project=$BROWSER
+        run: ENV=$ENV npx playwright test --grep @login --project=$BROWSER --reporter=list,html,allure-playwright
       - name: Upload reports (HTML + Allure)
         if: always()
         uses: ./.github/actions/upload-reports
@@ -39,13 +39,13 @@ jobs:
   admin-search-test:
     runs-on: ubuntu-latest
     env:
-      ENV: ${{ github.event.inputs.environment }}
-      BROWSER: ${{ github.event.inputs.browser }}
+      ENV: ${{ github.event.inputs.environment || 'qa' }}
+      BROWSER: ${{ github.event.inputs.browser || 'chromium' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-playwright
       - name: Run Playwright tests for admin search
-        run: ENV=$ENV npm run test --grep @login --project=$BROWSER
+        run: ENV=$ENV npx playwright test --grep @admin --project=$BROWSER --reporter=list,html,allure-playwright
       - name: Upload reports (HTML + Allure)
         if: always()
         uses: ./.github/actions/upload-reports
