@@ -23,8 +23,8 @@ export class LoginPage extends BasePage {
         await expect(this.loginButton).toBeVisible();
     }
  
-    async navigateToLoginPage() {
-        await this.page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+    async navigateToLoginPage(url: string) {
+        await this.page.goto(url);
     }
  
     async login(testData: any) {
@@ -33,15 +33,15 @@ export class LoginPage extends BasePage {
         await this.loginButton.click();
     }
  
-    async verifyInvalidLogin() {
+    async verifyInvalidLogin(testData: any) {
         await expect(this.alertMessage).toBeVisible();
-        await expect(this.alertMessage).toHaveText('Invalid credentials');
+        await expect(this.alertMessage).toHaveText(testData.expectedAlert);
     }
 
-    async verifyRequiredFieldErrorShown() {
+    async verifyRequiredFieldErrorShown(testData: any) {
         await expect(this.errorLoginField).toBeVisible();
-        await expect(this.errorLoginField).toHaveText('Required');
+        await expect(this.errorLoginField).toHaveText(testData.expectedErrorMessage);
         await expect(this.errorPasswordField).toBeVisible();
-        await expect(this.errorPasswordField).toHaveText('Required');
+        await expect(this.errorPasswordField).toHaveText(testData.expectedErrorMessage);
     }
 }

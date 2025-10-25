@@ -1,5 +1,6 @@
 import { test as baseTest, TestInfo } from '@playwright/test';
-import { LoginPage } from '@pages/LoginPage'
+import { EnvManager } from '@utils/EnvManager';
+import { LoginPage } from '@pages/LoginPage';
 import { DashboardPage } from '@pages/DashboardPage';
 import { AdminPage } from '@pages/AdminPage';
 import { WebUI } from '@lib/WebUI';
@@ -11,6 +12,7 @@ export const test = baseTest.extend<{
     dashboardPage: DashboardPage;
     adminPage: AdminPage;
     testData: any;
+    env: typeof EnvManager;
 }>({
     webUI: async ({ page }, use) => {
         await use(new WebUI(page));
@@ -28,16 +30,8 @@ export const test = baseTest.extend<{
         const data = await DataLoader.loadFromTestInfo(testInfo);
         await use(data);
     },
-})
-
-// test.beforeEach(async ({ loginPage, dashboardPage }, testInfo) => {
-//     const hasLoginTag = testInfo.tags.some(tag => tag === '@login');
-//     const testData = await DataLoader.loadFromTestInfo(testInfo);
-//     if (hasLoginTag) {
-//         return;
-//     } else {
-//         await loginPage.navigateToLoginPage();
-//         await loginPage.login(testData);
-//         await dashboardPage.verifyPageDisplay();
-//     }
-// });
+    env: async ({}, use) => {
+        EnvManager.loadEnv();
+        await use(EnvManager);
+    },
+});
