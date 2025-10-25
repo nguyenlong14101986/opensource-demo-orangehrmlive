@@ -9,8 +9,8 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_01' },
         ]
-    }, async ({ loginPage, dashboardPage, testData }) => {
-        await loginPage.navigateToLoginPage();
+    }, async ({ loginPage, dashboardPage, testData, env }) => {
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
         await dashboardPage.verifyPageDisplay();
     });
@@ -20,8 +20,8 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_02' },
         ]
-    }, async ({ loginPage, dashboardPage, testData }) => {
-        await loginPage.navigateToLoginPage();
+    }, async ({ loginPage, dashboardPage, testData, env }) => {
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
         await dashboardPage.verifyPageDisplay();
     })
@@ -31,10 +31,10 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_03' },
         ]
-    }, async ({ loginPage, testData }) => {
-        await loginPage.navigateToLoginPage();
+    }, async ({ loginPage, testData, env }) => {
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
-        await loginPage.verifyInvalidLogin();
+        await loginPage.verifyInvalidLogin(testData);
     })
 
     test('Login with empty fields', {
@@ -42,10 +42,10 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_04' },
         ]
-    }, async ({ loginPage, testData }) => {
-        await loginPage.navigateToLoginPage();
+    }, async ({ loginPage, testData, env }) => {
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
-        await loginPage.verifyRequiredFieldErrorShown();
+        await loginPage.verifyRequiredFieldErrorShown(testData);
     })
 
     test('Login with max length credentials', {
@@ -53,10 +53,10 @@ test.describe('Login Test', {
         annotation: [
             { type: 'testcaseId', description: 'TC_LOGIN_05' },
         ]
-    }, async ({ loginPage, testData }) => {
+    }, async ({ loginPage, testData, env }) => {
         testData.username = 'a'.repeat(257)
-        await loginPage.navigateToLoginPage();
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
-        await loginPage.verifyInvalidLogin();
+        await loginPage.verifyInvalidLogin(testData);
     })
 })

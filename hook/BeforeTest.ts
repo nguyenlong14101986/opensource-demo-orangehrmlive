@@ -1,13 +1,16 @@
 import { test } from '@lib/BaseTest';
 import { DataLoader } from '@utils/DataLoader';
 
-test.beforeEach(async ({ loginPage, dashboardPage }, testInfo) => {
+test.beforeEach(async ({ loginPage, dashboardPage, env }, testInfo) => {
     const hasLoginTag = testInfo.tags.some(tag => tag === '@login');
-    const testData = DataLoader.readFile('login-data.json', 'TC_LOGIN_01');
+    const testData = {
+        username: env.username,
+        password: env.password
+    };
     if (hasLoginTag) {
         return;
     } else {
-        await loginPage.navigateToLoginPage();
+        await loginPage.navigateToLoginPage(env.baseUrl);
         await loginPage.login(testData);
         await dashboardPage.verifyPageDisplay();
     }

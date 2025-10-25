@@ -44,32 +44,4 @@ export class DataLoader {
             return null;
         }
     }
-
-    static readFile<T = any>(filename: string, id?: string): T | null {
-        const filePath = path.resolve(__dirname, '../resources', filename);
-        if (!fs.existsSync(filePath)) {
-            console.warn(`File not found: ${filename}`);
-            return null;
-        }
-        try {
-            const content = fs.readFileSync(filePath, 'utf-8');
-            const jsonData = JSON.parse(content);
-            if (!id) {
-                return jsonData;
-            }
-            if (Array.isArray(jsonData)) {
-                const found = jsonData.find((item: any) => item.id === id);
-                if (!found) {
-                    console.warn(`No record found with id: ${id} in file: ${filename}`);
-                }
-                return found || null;
-            } else {
-                console.warn(`Expected array but got object in ${filename}`);
-                return null;
-            }
-        } catch (err) {
-            console.error(`Error parsing or reading file: ${filename}`, err);
-            return null;
-        }
-    }
 }

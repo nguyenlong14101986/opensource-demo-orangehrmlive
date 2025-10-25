@@ -66,7 +66,6 @@ test('Search with multiple filters', {
     await adminPage.selectStatusOption(testData);
     await adminPage.clickSearchButton();
     await adminPage.verifyUsernameCellDisplay(testData);
-    // await adminPage.verifyUserRoleCellDisplay('Admin');
     await adminPage.verifyStatusCellDisplay(testData);
 })
  
