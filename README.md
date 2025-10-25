@@ -8,24 +8,54 @@ A modular, data-driven, and CI/CD-ready automation framework built with **Playwr
 
 ```
 .
-├── tests/
-│   ├── Admin.test.ts           # Admin module search test suite
-│   └── Login.test.ts           # Login test suite
-│
-├── utils/
-│   ├── CryptoHelper.ts         # AES encryption/decryption helper
-│   ├── DataLoader.ts           # Loads test data dynamically by tag + testcaseId
-│   └── EnvManager.ts           # Loads environment variables securely
+├── .github/
+│   ├── actions/
+│   │   ├── setup-playwright/
+│   │   │   └── action.yml                # composite action: checkout, cache, setup-node, install deps, install browsers
+│   │   └── upload-reports/
+│   │       └── action.yml                # composite action: generate Allure & upload artifacts
+│   └── workflows/
+│       └── playwright.yml                # CI workflow (manual dispatch + PR)
 │
 ├── env/
-│   ├── .env.dev                # Example environment configuration
-│   ├── .env.uat
-│   └── .env.prod
+│   ├── .env.dev                          # env values for dev
+│   └── .env.qa                           # env values for qa
 │
-├── global-setup.ts             # Cleans Allure results before each run
-├── playwright.config.ts        # Playwright configuration
-├── tsconfig.json               # TypeScript compiler options and path mapping
-├── package.json                # NPM configuration and scripts
+├── hook/
+│   └── BeforeTest.ts                     # global test hooks (login beforeEach etc.)
+│
+├── lib/
+│   ├── BaseTest.ts                       # base test fixture definitions
+│   └── WebUI.ts                          # generic UI helpers (dropdowns, etc.)
+│
+├── pages/
+│   ├── BasePage.ts
+│   ├── LoginPage.ts
+│   ├── DashboardPage.ts
+│   └── AdminPage.ts
+│
+├── resources/
+│   ├── login-data.json                   # data-driven test records for login
+│   └── admin-data.json                   # data-driven test records for admin/search
+│
+├── tests/
+│   ├── Login.test.ts
+│   └── Admin.test.ts
+│
+├── utils/
+│   ├── CryptoHelper.ts                   # AES encrypt/decrypt
+│   ├── DataLoader.ts                     # test data loader by tag/testcaseId
+│   └── EnvManager.ts                     # loads `.env.*` and decrypts values
+│
+├── allure-results/                       # Allure raw results (generated at runtime)
+├── allure-report/                        # Generated Allure html report (CI artifact)
+├── playwright-report/                    # Playwright HTML report (generated at runtime)
+|
+├── global-setup.ts                       # global setup (e.g., cleanup)
+├── playwright.config.ts                  # Playwright configuration (projects, reporters, timeouts)
+├── tsconfig.json                         # TypeScript compiler options & path aliases
+├── package.json
+├── package-lock.json
 └── README.md
 ```
 
