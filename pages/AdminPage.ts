@@ -68,7 +68,6 @@ export class AdminPage extends BasePage {
  
     async verifyUserRoleCellDisplay(testData: any) {
         const rowCount: number = await this.userRoleCell.count();
-        console.log("count: " + rowCount)
         for (let i = 0; i < rowCount; i++) {
             await expect(this.userRoleCell.nth(i)).toBeVisible();
             await expect(this.userRoleCell.nth(i)).toContainText(testData.expectedRole);

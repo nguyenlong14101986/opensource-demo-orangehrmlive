@@ -26,7 +26,6 @@ export class EnvManager {
     }
 
     static get password(): string {
-        const encrypted = process.env.LOGIN_PASS || '';
-        return encrypted ? CryptoHelper.decrypt(encrypted) : '';
+        return process.env.LOGIN_PASS || '';
     }
 }

@@ -1,5 +1,6 @@
 import {expect, type Locator, type Page } from '@playwright/test';
 import { BasePage } from '@pages/BasePage';
+import { CryptoHelper } from '@utils/CryptoHelper';
  
 export class LoginPage extends BasePage {
     readonly usernameTextbox: Locator;
@@ -29,7 +30,7 @@ export class LoginPage extends BasePage {
  
     async login(testData: any) {
         await this.usernameTextbox.fill(testData.username);
-        await this.passwordTextbox.fill(testData.password);
+        await this.passwordTextbox.fill(CryptoHelper.decrypt(testData.password));
         await this.loginButton.click();
     }
  

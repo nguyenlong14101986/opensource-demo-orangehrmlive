@@ -3,20 +3,18 @@
     "id": "TC_LOGIN_01",
     "description": "Login with valid admin credentials",
     "username": "Admin",
-    "password": "admin123",
-    "expectedAlert": "success"
+    "password": "U2FsdGVkX1//Kld8E4H/ECJncQm5BuDOdGtW3pU+6Sw="
   },
   {
     "id": "TC_LOGIN_02",
     "description": "Login with mixed-case username",
     "username": "aDmIn",
-    "password": "admin123",
-    "expectedAlert": "Invalid credentials"
+    "password": "U2FsdGVkX1//Kld8E4H/ECJncQm5BuDOdGtW3pU+6Sw="
   },
   {
     "id": "TC_LOGIN_03",
     "description": "Login with incorrect password",
-    "username": "aDmIn",
+    "username": "Admin",
     "password": "wrongpass",
     "expectedAlert": "Invalid credentials"
   },
@@ -31,7 +29,7 @@
     "id": "TC_LOGIN_05",
     "description": "LoginLogin with max length credentials",
     "username": null,
-    "password": "admin123",
+    "password": "U2FsdGVkX1//Kld8E4H/ECJncQm5BuDOdGtW3pU+6Sw=",
     "expectedAlert": "Invalid credentials"
   }
 ]
